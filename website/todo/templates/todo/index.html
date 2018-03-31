@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'todo/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'todo/css/bootstrap.css' %}">
+    <title>TODO App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="jumbotron mt-5">
+                   <form action="{% url 'add' %}" method="POST" role="form">
+                       {% csrf_token %}
+                       <div class="form-inline" >
+                           {{form.text}}
+                           <input type="submit" value="TODO" class="btn btn-info">
+                       </div>
+                       <br>
+                       <div>
+                          <a href="{% url 'delete' %}"><button type="button" class="btn btn-danger form-control mb-2">DELETE COMPLETE</button></a>
+                          <a href="{% url 'reset' %}"><button type="button" class="btn btn-warning form-control">RESET</button></a>
+                       </div>
+                   </form>
+                   <br>
+                   <ul class="list-group">
+
+                      {% for t in mytodo %}
+                        {% if t.complete  %}
+                            <li class="list-group-item complete">{{t.text}}</li>
+                        {% else  %}
+                            <a href="{% url 'complete' t.id %}"><li class="list-group-item">{{t.text}}</li></a>
+                        {% endif  %}
+                      {% endfor %}
+
+                   </ul>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+</body>
+</html>
